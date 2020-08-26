@@ -1,108 +1,212 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Aqua Buddy</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link href="./popup.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <title>Aqua Buddy</title>
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-  <link href="./popup.css" rel="stylesheet">
-</head>
-
-<body>
-  <div class="popup shadow divide-y divide-gray-400">
-    <div class="p-2 flex items-center bg-blue-100 border-b-1 border-gray-500 h-24">
-      <div class="ml-4 flex-grow">
-        <h1 class="text-lg">Aqua Buddy</h1>
-        <span class="text-xs italic">Your personal water reminder!</span>
-      </div>
-      <img src="images/aqua-buddy-64.png" alt="Aqua Buddy">
-    </div>
-    <div class="p-4">
-      <div class="flex justify-end pb-4">
-        <label for="input_doNotDisturb" class="flex items-center cursor-pointer">
-          <!-- label -->
-          <span class="mr-4 text-gray-700 font-medium">
-            Do not disturb
-          </span>
-          <!-- toggle -->
-          <div class="relative">
-            <!-- input -->
-            <input id="input_doNotDisturb" type="checkbox" class="sr-only" />
-            <div class="toggle" id="toggleContainer">
-              <!-- line -->
-              <div class="toggle-slide w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-              <!-- dot -->
-              <div class="toggle-slider absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
-            </div>
-          </div>
-        </label>
-      </div>
-      <div class="flex flex-col pb-4">
-        <h2 class="text-base pb-1">Remind Me Every</h2>
-        <div class="flex space-x-1">
-          <button class="bg-blue-500 focus:outline-none focus:shadow-outline hover:bg-blue-700 text-white py-2 px-4 rounded">
-            15 mins
-          </button>
-          <button
-            class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4">
-            30 mins
-          </button>
-          <button
-            class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4">
-            45 mins
-          </button>
-          <button
-            class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4">
-            60 mins
-          </button>
+  <body>
+    <div class="popup shadow divide-y divide-gray-400">
+      <div
+        class="p-2 flex items-center bg-blue-100 border-b-1 border-gray-500 h-24"
+      >
+        <div class="ml-4 flex-grow">
+          <h1 class="text-lg">Aqua Buddy</h1>
+          <span class="text-xs italic">Your personal water reminder!</span>
         </div>
+        <img src="images/aqua-buddy-64.png" alt="Aqua Buddy" />
       </div>
-      <div class="flex flex-col">
-        <h2 class="text-base pb-1">Quiet Hours</h2>
-        <div class="flex justify-between items-center">
-          <label for="quietHoursFrom">From: </label>
-          <div class="relative">
-            <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
-              id="quietHoursFrom">
-              <option value="00:00">00:00</option>
-              <option value="00:30">00:30</option>
-              <option value="01:00">01:00</option>
-              <option value="01:30">01:30</option>
-              <option value="02:00">02:00</option>
-              <option value="02:30">02:30</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-            </div>
+      <div class="p-4">
+        <div id="status" class="absolute left-4">
+          <div
+            id="loader"
+            class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-2 w-2"
+          ></div>
+          <div
+            id="success"
+            class="bg-green-100 border border-green-400 text-green-700 p-2 pr-6 rounded relative"
+            role="alert"
+          >
+            <strong class="font-bold">We got it!</strong>
+            <button
+              class="absolute top-0 right-0 p-1 focus:outline-none focus:shadow-outline"
+            >
+              <svg
+                class="fill-current h-4 w-4 text-green-500"
+                role="button"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <title>Close</title>
+                <path
+                  d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+                />
+              </svg>
+            </button>
           </div>
-          <label for="quietHoursTo">To: </label>
-          <div class="relative">
-            <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
-              id="quietHoursTo">
-              <option value="00:00">00:00</option>
-              <option value="00:30">00:30</option>
-              <option value="01:00">01:00</option>
-              <option value="01:30">01:30</option>
-              <option value="02:00">02:00</option>
-              <option value="02:30">02:30</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-            </div>
+          <div
+            id="failure"
+            class="bg-red-100 border border-red-400 text-red-700 p-2 pr-6 rounded relative"
+            role="alert"
+          >
+            <strong class="font-bold">Oops!</strong>
+            <button
+              class="absolute top-0 right-0 p-1 focus:outline-none focus:shadow-outline"
+            >
+              <svg
+                class="fill-current h-4 w-4 text-red-500"
+                role="button"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <title>Close</title>
+                <path
+                  d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
+        <div class="flex justify-end pb-4">
+          <label
+            for="input_doNotDisturb"
+            class="flex items-center cursor-pointer"
+          >
+            <!-- label -->
+            <span class="mr-4 text-gray-700 font-medium"> Do not disturb </span>
+            <!-- toggle -->
+            <div class="relative">
+              <!-- input -->
+              <input id="input_doNotDisturb" type="checkbox" class="sr-only" />
+              <div class="toggle" id="toggleContainer">
+                <!-- line -->
+                <div
+                  class="toggle-slide w-10 h-4 bg-gray-400 rounded-full shadow-inner"
+                ></div>
+                <!-- dot -->
+                <div
+                  class="toggle-slider absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"
+                ></div>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div class="flex flex-col pb-4">
+          <h2 class="text-base pb-1">Remind Me Every</h2>
+          <div class="flex space-x-1">
+            <button
+              class="bg-blue-500 focus:outline-none focus:shadow-outline hover:bg-blue-700 text-white py-2 px-4 rounded"
+            >
+              15 mins
+            </button>
+            <button
+              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+            >
+              30 mins
+            </button>
+            <button
+              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+            >
+              45 mins
+            </button>
+            <button
+              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+            >
+              60 mins
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <h2 class="text-base pb-1">Quiet Hours</h2>
+          <div class="flex justify-between items-center">
+            <label for="quietHoursFrom">From: </label>
+            <div class="relative">
+              <select
+                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                id="quietHoursFrom"
+              >
+                <option value="00:00">00:00</option>
+                <option value="00:30">00:30</option>
+                <option value="01:00">01:00</option>
+                <option value="01:30">01:30</option>
+                <option value="02:00">02:00</option>
+                <option value="02:30">02:30</option>
+              </select>
+              <div
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+              >
+                <svg
+                  class="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <label for="quietHoursTo">To: </label>
+            <div class="relative">
+              <select
+                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                id="quietHoursTo"
+              >
+                <option value="00:00">00:00</option>
+                <option value="00:30">00:30</option>
+                <option value="01:00">01:00</option>
+                <option value="01:30">01:30</option>
+                <option value="02:00">02:00</option>
+                <option value="02:30">02:30</option>
+              </select>
+              <div
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+              >
+                <svg
+                  class="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="p-2 text-xs bg-gray-100">
-    Icons made by <a class="text-blue-600 italic" href="https://www.flaticon.com/authors/smalllikeart"
-      target="_blank" title="smalllikeart">smalllikeart</a> from <a class="text-blue-600 italic" href="https://www.flaticon.com/"
-      target="_blank" title="Flaticon">www.flaticon.com</a>
-  </div>
-  <script src="popup.js"></script>
-</body>
-
+    <div class="p-2 text-xs bg-gray-100">
+      Made with <span class="text-red-600">&#9829;</span> by
+      <a
+        class="text-blue-600 italic focus:outline-none focus:shadow-outline"
+        href="https://www.umairhafeez.com"
+        target="_blank"
+        title="Umair Hafeez"
+        >Umair Hafeez</a
+      ><br /><br />
+      Icons made by
+      <a
+        class="text-blue-600 italic focus:outline-none focus:shadow-outline"
+        href="https://www.flaticon.com/authors/smalllikeart"
+        target="_blank"
+        title="smalllikeart"
+        >smalllikeart</a
+      >
+      from
+      <a
+        class="text-blue-600 italic focus:outline-none focus:shadow-outline"
+        href="https://www.flaticon.com/"
+        target="_blank"
+        title="Flaticon"
+        >www.flaticon.com</a
+      >
+    </div>
+    <script src="popup.js"></script>
+  </body>
 </html>

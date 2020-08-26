@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-'use strict';
+"use strict";
 
-chrome.runtime.onInstalled.addListener(function() {
+chrome.runtime.onInstalled.addListener(function () {
   // Ask for notification permission
   // If permission granted
   // Enable the extension
@@ -13,10 +13,10 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.notifications.create(
     null,
     {
-      type: 'basic',
-      iconUrl: 'images/aqua-buddy-512.png',
-      title: 'Hello',
-      message: 'World!'
+      type: "basic",
+      iconUrl: "images/aqua-buddy-512.png",
+      title: "Hello",
+      message: "World!",
     },
     (notificationId) => {
       console.log(notificationId);
