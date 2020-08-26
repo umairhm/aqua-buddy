@@ -19,7 +19,7 @@ input:checked ~ .toggle .toggle-slider {
 }
 
 .loader {
-  border-top-color: #3498db;
+  border-top-color: #4299e1;
   -webkit-animation: spinner 1.5s linear infinite;
   animation: spinner 1.5s linear infinite;
 }

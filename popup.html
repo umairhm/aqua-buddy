@@ -20,15 +20,15 @@
         </div>
         <img src="images/aqua-buddy-64.png" alt="Aqua Buddy" />
       </div>
-      <div class="p-4">
-        <div id="status" class="absolute left-4">
+      <div class="p-4 relative">
+        <div class="absolute top-0">
           <div
             id="loader"
-            class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-2 w-2"
+            class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-2 w-2 mt-4 hidden opacity-0"
           ></div>
           <div
             id="success"
-            class="bg-green-100 border border-green-400 text-green-700 p-2 pr-6 rounded relative"
+            class="transition-all duration-1000 ease-in-out bg-green-100 border border-green-400 text-green-700 p-2 pr-6 rounded relative mt-2 hidden opacity-0"
             role="alert"
           >
             <strong class="font-bold">We got it!</strong>
@@ -50,15 +50,15 @@
           </div>
           <div
             id="failure"
-            class="bg-red-100 border border-red-400 text-red-700 p-2 pr-6 rounded relative"
+            class="transition-all duration-500 ease-in-out bg-red-100 border border-red-700 text-red-700 p-2 pr-6 rounded relative mt-2 hidden opacity-0"
             role="alert"
           >
-            <strong class="font-bold">Oops!</strong>
+            <span>Oops!</span>
             <button
               class="absolute top-0 right-0 p-1 focus:outline-none focus:shadow-outline"
             >
               <svg
-                class="fill-current h-4 w-4 text-red-500"
+                class="fill-current h-4 w-4 text-red-700"
                 role="button"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -99,22 +99,22 @@
           <h2 class="text-base pb-1">Remind Me Every</h2>
           <div class="flex space-x-1">
             <button
-              class="bg-blue-500 focus:outline-none focus:shadow-outline hover:bg-blue-700 text-white py-2 px-4 rounded"
+              class="time-button selected focus:outline-none focus:shadow-outline rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
             >
               15 mins
             </button>
             <button
-              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+              class="time-button focus:outline-none focus:shadow-outline rounded py-2 px-4 border border-white hover:border-gray-200 text-blue-500 hover:bg-gray-200"
             >
               30 mins
             </button>
             <button
-              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+              class="time-button focus:outline-none focus:shadow-outline rounded py-2 px-4 border border-white hover:border-gray-200 text-blue-500 hover:bg-gray-200"
             >
               45 mins
             </button>
             <button
-              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+              class="time-button focus:outline-none focus:shadow-outline rounded py-2 px-4 border border-white hover:border-gray-200 text-blue-500 hover:bg-gray-200"
             >
               60 mins
             </button>
@@ -189,7 +189,7 @@
         target="_blank"
         title="Umair Hafeez"
         >Umair Hafeez</a
-      ><br /><br />
+      ><br />
       Icons made by
       <a
         class="text-blue-600 italic focus:outline-none focus:shadow-outline"
