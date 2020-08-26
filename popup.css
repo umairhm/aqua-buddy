@@ -1,0 +1,19 @@
+.popup {
+  width: 300px;
+}
+
+.toggle-slider {
+  top: -.25rem;
+  left: -.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+input:focus ~ .toggle {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66,153,225,.5) !important;
+}
+
+input:checked ~ .toggle .toggle-slider {
+  transform: translateX(100%);
+  background-color: #4299e1;
+}
