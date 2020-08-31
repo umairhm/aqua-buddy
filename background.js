@@ -22,4 +22,8 @@ chrome.runtime.onInstalled.addListener(function () {
       console.log(notificationId);
     }
   );
+
+  chrome.storage.sync.set({'testKey': 'Hello World!'}, function() {
+    console.log('Value for testKey is set!');
+  });
 });
