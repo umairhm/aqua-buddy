@@ -50,22 +50,34 @@
           <h2 class="text-base pb-1">Remind Me Every</h2>
           <div class="flex space-x-1">
             <button
-              class="bg-blue-500 focus:outline-none focus:shadow-outline hover:bg-blue-700 text-white py-2 px-4 rounded"
+              id="button_15"
+              title="Set frequency to 15 minutes"
+              data-frequency="15"
+              class="focus:outline-none focus:shadow-outline rounded py-2 px-4"
             >
               15 mins
             </button>
             <button
-              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+              id="button_30"
+              title="Set frequency to 30 minutes"
+              data-frequency="30"
+              class="focus:outline-none focus:shadow-outline rounded py-2 px-4"
             >
               30 mins
             </button>
             <button
-              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+              id="button_45"
+              title="Set frequency to 45 minutes"
+              data-frequency="45"
+              class="focus:outline-none focus:shadow-outline rounded py-2 px-4"
             >
               45 mins
             </button>
             <button
-              class="focus:outline-none focus:shadow-outline border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+              id="button_60"
+              title="Set frequency to 60 minutes"
+              data-frequency="60"
+              class="focus:outline-none focus:shadow-outline rounded py-2 px-4"
             >
               60 mins
             </button>
@@ -79,14 +91,7 @@
               <select
                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
                 id="quietHoursFrom"
-              >
-                <option value="00:00">00:00</option>
-                <option value="00:30">00:30</option>
-                <option value="01:00">01:00</option>
-                <option value="01:30">01:30</option>
-                <option value="02:00">02:00</option>
-                <option value="02:30">02:30</option>
-              </select>
+              ></select>
               <div
                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
               >
@@ -106,14 +111,7 @@
               <select
                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
                 id="quietHoursTo"
-              >
-                <option value="00:00">00:00</option>
-                <option value="00:30">00:30</option>
-                <option value="01:00">01:00</option>
-                <option value="01:30">01:30</option>
-                <option value="02:00">02:00</option>
-                <option value="02:30">02:30</option>
-              </select>
+              ></select>
               <div
                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
               >
@@ -158,5 +156,6 @@
         >www.flaticon.com</a
       >
     </div>
+    <pre id="code"></pre>
   </body>
 </html>
