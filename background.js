@@ -4,22 +4,34 @@
 
 "use strict";
 
+const hours = [];
+
+const defaults = {
+  doNotDisturb: false,
+  frequency: 30,
+  quietHours: {
+    from: '12:00 AM',
+    to: '08:00 AM'
+  }
+};
+
 chrome.runtime.onInstalled.addListener(function () {
-  // Ask for notification permission
-  // If permission granted
-  // Enable the extension
-  // And
-  // Set a storage variable with default configuration
+  // Send a welcome notification after installation
   chrome.notifications.create(
     null,
     {
       type: "basic",
       iconUrl: "images/aqua-buddy-512.png",
-      title: "Hello",
-      message: "World!",
-    },
-    (notificationId) => {
-      console.log(notificationId);
+      title: "Hey there!!!",
+      message: "I'm your buddy, and I'll make sure that you stay hydrated!",
     }
   );
+
+  // Check if config exists in sync storage
+  chrome.storage.sync.get(['aquaBuddyConfig'], function(result) {
+    // If sync storage returns nothing, set to defaults
+    if (!result.aquaBuddyConfig) {
+      chrome.storage.sync.set({'aquaBuddyConfig': defaults});
+    }
+  });
 });
