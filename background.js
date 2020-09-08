@@ -4,8 +4,6 @@
 
 "use strict";
 
-const hours = [];
-
 const defaults = {
   doNotDisturb: false,
   frequency: 30,
