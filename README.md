@@ -11,6 +11,7 @@ You can also set quiet hours and even turn on the "Do Not Disturb" mode to stop 
 ## Future Wishlist
 
 - Make this extension fully accessible, so everyone can benefit
+- Add a collection of messages to randomly pick from
 - Allow the user to record the amount of water they drink on daily basis
 - Based on the data, show trends as a bar chart
 

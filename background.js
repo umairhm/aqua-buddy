@@ -4,22 +4,22 @@
 
 "use strict";
 
-const defaults = {
+const defaultConfig = {
   doNotDisturb: false,
   frequency: 1,
   quietHours: {
-    from: '12:00 AM',
-    to: '08:00 AM'
+    from: 0,
+    to: 8
   }
 };
 
-function createBasicNotification(title, message, imageUrl) {
+function createBasicNotification(message, title, imageUrl) {
   chrome.notifications.create(
     null,
     {
       type: "basic",
       iconUrl: "images/aqua-buddy-512.png",
-      title: title,
+      title: title || "Hey there! I'm Aqua Buddy 😊",
       message: message,
       imageUrl: imageUrl
     }
@@ -28,70 +28,67 @@ function createBasicNotification(title, message, imageUrl) {
 
 function sendWelcomeNotification() {
   createBasicNotification(
-    "Hey there! I'm Aqua Buddy 😊",
     "I'm your friend 💙 and I'm here to help you stay hydrated!"
   );
 }
 
 function initializeConfigurationFromStorage() {
   chrome.storage.sync.get(['aquaBuddyConfig'], function(result) {
-    // If sync storage returns nothing, set to defaults
-    if (!result.aquaBuddyConfig) {
-      chrome.storage.sync.set({'aquaBuddyConfig': defaults});
-      setAlarmForNextNotification(defaults);
-    } else {
-      setAlarmForNextNotification(result.aquaBuddyConfig);
+    // If sync storage returns nothing, set to defaultConfig
+    let aquaBuddyConfig = result.aquaBuddyConfig;
+    if (!aquaBuddyConfig) {
+      aquaBuddyConfig = defaultConfig;
+      chrome.storage.sync.set({'aquaBuddyConfig': aquaBuddyConfig});
     }
+
+    setAlarmForNextNotification(aquaBuddyConfig);
   });
 }
 
 function initializeListenerForStorageChanges() {
   chrome.storage.onChanged.addListener(function(changes, area) {
-    console.log('changes: ', JSON.stringify(changes));
-    console.log('area: ', area);
+    const aquaBuddyConfig =  changes.aquaBuddyConfig;
+    if (area === 'sync' && aquaBuddyConfig && aquaBuddyConfig.oldValue) {
+      if (aquaBuddyConfig.newValue.doNotDisturb) {
+        chrome.alarms.clear('aqua-buddy');
+      } else {
+        setAlarmForNextNotification(aquaBuddyConfig.newValue);
+      }
+    }
   });
 }
 
 function setAlarmForNextNotification(aquaBuddyConfig) {
-  const alarmTime = getNextAlarmTime(aquaBuddyConfig.frequency);
-
+  // TODO: Call getNextAlarmTime to get calculated value for "when"
   chrome.alarms.create('aqua-buddy', {
-    when: alarmTime,
     periodInMinutes: aquaBuddyConfig.frequency
   });
 
-  chrome.alarms.onAlarm.addListener(function(alarm) {
-    console.log(alarm);
+  chrome.alarms.onAlarm.addListener(function() {
+    onAlarmHandler(aquaBuddyConfig);
   });
 }
 
-function getNextAlarmTime(frequency) {
-  // based on selected frequency, calculate next alarm time
-  // if frequency is 15 minutes
-  //  set alarm for next 15 minutes point (00, 15, 30, 45)
-  // if frequency is 30 minutes
-  //  set alarm for next 30 minutes point (00, 30)
-  // if frequency is 45 minutes
-  //  set alarm for next 45 minutes break
-  //  pick next 15 minutes point and start alarm timer
-  // if frequency is 60 minutes
-  //  pick the next hour point and start alarm timer
+function onAlarmHandler(aquaBuddyConfig) {
+  if (!aquaBuddyConfig.doNotDisturb) {
+    const now = new Date();
 
-  // switch (frequency) {
-  //   case 15:
-  //     break;
-  //   case 30:
-  //     break;
-  //   case 45:
-  //     break;
-  //   case 60:
-  //     break;
-  // }
+    const quietHoursFrom = aquaBuddyConfig.quietHours.from;
+    const quietHoursTo = aquaBuddyConfig.quietHours.to;
 
-  return Date.now() + (frequency * 60);
+    // If "from" is smaller than "to", it means both are in same day
+    // If "from" is greater than "to", it means "from" is in previous day
+
+    // TODO: Show notification only if current time is outside of quiet hours
+
+    createBasicNotification(
+      "It's time to drink some water 💧 and keep yourself hydrated 💪"
+    );
+  }
 }
 
 chrome.runtime.onInstalled.addListener(function () {
+  // TODO: remove this line
   chrome.storage.sync.remove(['aquaBuddyConfig']);
   sendWelcomeNotification();
 
