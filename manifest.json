@@ -1,8 +1,8 @@
 {
   "name": "Aqua Buddy",
   "version": "1.0",
-  "description": "You personal water reminder!",
-  "permissions": ["declarativeContent", "notifications", "storage"],
+  "description": "I'm your friend 💙 and I'm here to help you stay hydrated!",
+  "permissions": ["alarms", "notifications", "storage"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false

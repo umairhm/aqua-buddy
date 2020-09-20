@@ -5,7 +5,7 @@ const frequencyButtons = ['button_15', 'button_30', 'button_45', 'button_60'];
 let aquaBuddyConfig = {};
 
 function getHours() {
-  const _hours = [];
+  const hours = [];
   for (let hour = 0; hour <= 23; hour++) {
     const ampm = hour > 11 ? 'PM' : 'AM';
     
@@ -13,19 +13,22 @@ function getHours() {
     hourlyTime = hourlyTime === 0 ? 12 : hourlyTime;
     hourlyTime = hourlyTime < 10 ? '0' + hourlyTime : hourlyTime;
 
-    _hours.push(`${hourlyTime}:00 ${ampm}`);
+    hours.push({
+      text: `${hourlyTime}:00 ${ampm}`,
+      value: hour
+    });
   }
-  return _hours;
+  return hours;
 }
 
-function populateHours(_select, _hours, _selectedOption) {
-  for (i = 0; i < _hours.length; i++) {
+function populateHours(select, hours, selectedOption) {
+  for (i = 0; i < hours.length; i++) {
     let option = document.createElement('option');
-    const hour = _hours[i];
-    option.text = hour;
-    option.value = hour;
-    option.selected = hour === _selectedOption;
-    _select.append(option);
+    const hour = hours[i];
+    option.text = hour.text;
+    option.value = hour.value;
+    option.selected = hour.value === selectedOption;
+    select.append(option);
   }
 }
 
@@ -68,11 +71,11 @@ function frequencyButtonClickHandler(e) {
   updateConfigInStorage({...aquaBuddyConfig, frequency: frequencyValue });
 
   // Update styles
-  selectedButton.classList.remove(...selectedFrequencyButtonClasses);
-  selectedButton.classList.add(...unselectedFrequencyButtonClasses);
+  selectedButton && selectedButton.classList.remove(...selectedFrequencyButtonClasses);
+  selectedButton && selectedButton.classList.add(...unselectedFrequencyButtonClasses);
 
-  clickedButton.classList.add(...selectedFrequencyButtonClasses);
-  clickedButton.classList.remove(...unselectedFrequencyButtonClasses);
+  clickedButton && clickedButton.classList.add(...selectedFrequencyButtonClasses);
+  clickedButton && clickedButton.classList.remove(...unselectedFrequencyButtonClasses);
 }
 
 function setQuietHours() {
@@ -97,9 +100,21 @@ function quietHoursChangeHandler(e) {
   const changedSelect = e.target;
   console.log(changedSelect);  
   if (changedSelect.id === 'quietHoursFrom') {
-    updateConfigInStorage({...aquaBuddyConfig, quietHours: { from: changedSelect.value } });
+    updateConfigInStorage({
+      ...aquaBuddyConfig,
+      quietHours: {
+        ...aquaBuddyConfig.quietHours,
+        from: +changedSelect.value 
+      }
+    });
   } else {
-    updateConfigInStorage({...aquaBuddyConfig, quietHours: { to: changedSelect.value } });
+    updateConfigInStorage({
+      ...aquaBuddyConfig,
+      quietHours: {
+        ...aquaBuddyConfig.quietHours,
+        to: +changedSelect.value 
+      }
+    });
   }
 }
 
