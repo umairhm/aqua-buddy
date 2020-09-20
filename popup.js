@@ -71,11 +71,11 @@ function frequencyButtonClickHandler(e) {
   updateConfigInStorage({...aquaBuddyConfig, frequency: frequencyValue });
 
   // Update styles
-  selectedButton.classList.remove(...selectedFrequencyButtonClasses);
-  selectedButton.classList.add(...unselectedFrequencyButtonClasses);
+  selectedButton && selectedButton.classList.remove(...selectedFrequencyButtonClasses);
+  selectedButton && selectedButton.classList.add(...unselectedFrequencyButtonClasses);
 
-  clickedButton.classList.add(...selectedFrequencyButtonClasses);
-  clickedButton.classList.remove(...unselectedFrequencyButtonClasses);
+  clickedButton && clickedButton.classList.add(...selectedFrequencyButtonClasses);
+  clickedButton && clickedButton.classList.remove(...unselectedFrequencyButtonClasses);
 }
 
 function setQuietHours() {
@@ -100,9 +100,21 @@ function quietHoursChangeHandler(e) {
   const changedSelect = e.target;
   console.log(changedSelect);  
   if (changedSelect.id === 'quietHoursFrom') {
-    updateConfigInStorage({...aquaBuddyConfig, quietHours: { from: changedSelect.value } });
+    updateConfigInStorage({
+      ...aquaBuddyConfig,
+      quietHours: {
+        ...aquaBuddyConfig.quietHours,
+        from: +changedSelect.value 
+      }
+    });
   } else {
-    updateConfigInStorage({...aquaBuddyConfig, quietHours: { to: changedSelect.value } });
+    updateConfigInStorage({
+      ...aquaBuddyConfig,
+      quietHours: {
+        ...aquaBuddyConfig.quietHours,
+        to: +changedSelect.value 
+      }
+    });
   }
 }
 

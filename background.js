@@ -59,7 +59,6 @@ function initializeListenerForStorageChanges() {
 }
 
 function setAlarmForNextNotification(aquaBuddyConfig) {
-  // TODO: Call getNextAlarmTime to get calculated value for "when"
   chrome.alarms.create('aqua-buddy', {
     periodInMinutes: aquaBuddyConfig.frequency
   });
@@ -71,25 +70,33 @@ function setAlarmForNextNotification(aquaBuddyConfig) {
 
 function onAlarmHandler(aquaBuddyConfig) {
   if (!aquaBuddyConfig.doNotDisturb) {
-    const now = new Date();
+    const currentHour = (new Date()).getHours();
 
     const quietHoursFrom = aquaBuddyConfig.quietHours.from;
     const quietHoursTo = aquaBuddyConfig.quietHours.to;
 
-    // If "from" is smaller than "to", it means both are in same day
-    // If "from" is greater than "to", it means "from" is in previous day
-
-    // TODO: Show notification only if current time is outside of quiet hours
-
-    createBasicNotification(
-      "It's time to drink some water 💧 and keep yourself hydrated 💪"
-    );
+    if (
+      (
+        quietHoursFrom > quietHoursTo &&
+        currentHour <= quietHoursFrom &&
+        currentHour >= quietHoursTo
+      ) ||
+      (
+        quietHoursFrom < quietHoursTo &&
+        (
+          currentHour < quietHoursFrom || 
+          currentHour >= quietHoursTo
+        )
+      )
+    ) {
+      createBasicNotification(
+        "It's time to drink some water 💧 and keep yourself hydrated 💪"
+      );
+    }
   }
 }
 
 chrome.runtime.onInstalled.addListener(function () {
-  // TODO: remove this line
-  chrome.storage.sync.remove(['aquaBuddyConfig']);
   sendWelcomeNotification();
 
   initializeConfigurationFromStorage();
