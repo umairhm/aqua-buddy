@@ -6,9 +6,9 @@
 
 const defaultConfig = {
   doNotDisturb: false,
-  frequency: 1,
+  frequency: 30,
   quietHours: {
-    from: 0,
+    from: 20,
     to: 8
   }
 };
