@@ -1,6 +1,6 @@
 {
   "name": "Aqua Buddy",
-  "version": "1.0",
+  "version": "1.1",
   "description": "I'm your friend 💙 and I'm here to help you stay hydrated!",
   "permissions": ["alarms", "notifications", "storage"],
   "background": {

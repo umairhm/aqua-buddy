@@ -45,32 +45,19 @@ function initializeConfigurationFromStorage() {
   });
 }
 
-function initializeListenerForStorageChanges() {
-  chrome.storage.onChanged.addListener(function(changes, area) {
-    const aquaBuddyConfig =  changes.aquaBuddyConfig;
-    if (area === 'sync' && aquaBuddyConfig && aquaBuddyConfig.oldValue) {
-      if (aquaBuddyConfig.newValue.doNotDisturb) {
-        chrome.alarms.clear('aqua-buddy');
-      } else {
-        setAlarmForNextNotification(aquaBuddyConfig.newValue);
-      }
-    }
-  });
-}
-
 function setAlarmForNextNotification(aquaBuddyConfig) {
   chrome.alarms.create('aqua-buddy', {
     periodInMinutes: aquaBuddyConfig.frequency
   });
-
-  chrome.alarms.onAlarm.addListener(function() {
-    onAlarmHandler(aquaBuddyConfig);
-  });
 }
 
-function onAlarmHandler(aquaBuddyConfig) {
-  if (!aquaBuddyConfig.doNotDisturb) {
-    const currentHour = (new Date()).getHours();
+function onAlarmHandler() {
+  chrome.storage.sync.get(['aquaBuddyConfig'], function(result) {
+    // If sync storage returns nothing, set to defaultConfig
+    let aquaBuddyConfig = result.aquaBuddyConfig;
+
+    if (aquaBuddyConfig && !aquaBuddyConfig.doNotDisturb) {
+      const currentHour = (new Date()).getHours();
 
     const quietHoursFrom = aquaBuddyConfig.quietHours.from;
     const quietHoursTo = aquaBuddyConfig.quietHours.to;
@@ -93,13 +80,27 @@ function onAlarmHandler(aquaBuddyConfig) {
         "It's time to drink some water 💧 and keep yourself hydrated 💪"
       );
     }
-  }
+    }
+  });
 }
 
 chrome.runtime.onInstalled.addListener(function () {
   sendWelcomeNotification();
 
   initializeConfigurationFromStorage();
+});
 
-  initializeListenerForStorageChanges();
+chrome.storage.onChanged.addListener(function(changes, area) {
+  const aquaBuddyConfig =  changes.aquaBuddyConfig;
+  if (area === 'sync' && aquaBuddyConfig && aquaBuddyConfig.oldValue) {
+    if (aquaBuddyConfig.newValue.doNotDisturb) {
+      chrome.alarms.clear('aqua-buddy');
+    } else {
+      setAlarmForNextNotification(aquaBuddyConfig.newValue);
+    }
+  }
+});
+
+chrome.alarms.onAlarm.addListener(function() {
+  onAlarmHandler();
 });
