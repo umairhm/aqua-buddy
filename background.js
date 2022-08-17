@@ -15,7 +15,7 @@ const defaultConfig = {
 
 function createBasicNotification(message, title, imageUrl) {
   chrome.notifications.create(
-    null,
+    `aqua-buddy-${Date.now()}`,
     {
       type: "basic",
       iconUrl: "images/aqua-buddy-512.png",
