@@ -1,13 +1,13 @@
 {
   "name": "Aqua Buddy",
-  "version": "1.1",
+  "version": "1.2.0",
+  "manifest_version": 3,
   "description": "I'm your friend 💙 and I'm here to help you stay hydrated!",
   "permissions": ["alarms", "notifications", "storage"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
-  "browser_action": {
+  "action": {
     "default_title": "Aqua Buddy",
     "default_popup": "popup.html",
     "default_icon": {
@@ -28,6 +28,5 @@
     "128": "images/aqua-buddy-128.png",
     "256": "images/aqua-buddy-256.png",
     "512": "images/aqua-buddy-512.png"
-  },
-  "manifest_version": 2
+  }
 }
